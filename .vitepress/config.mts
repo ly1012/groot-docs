@@ -4,6 +4,7 @@ import { withMermaid } from "vitepress-plugin-mermaid";
 
 // https://vitepress.dev/reference/site-config
 export default withMermaid({
+  base: "/groot-docs/",
   title: "Groot",
   description: "Java 自动化测试工具",
   themeConfig: {
