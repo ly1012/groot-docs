@@ -111,34 +111,47 @@ public class TestCaseLogListener implements ITestListener {
 
 ## 3. 异步日志跟踪
 
-Groot 内置了 TraceableTask 包装线程任务，从而跟踪异步任务的日志。
+groot-core 内置了 TraceableTask 包装线程任务，从而跟踪异步任务的日志。
 
-使用示例（Groovy + TestNG）：
+使用示例（Java + TestNG）：
 
 ```java
-@Listeners([TestCaseLogListener.class])
-class TestLogback {
+public class TestCaseLogListenerTest {
 
-  private static final Logger logger = LoggerFactory.getLogger(TestLogback.class)
+    private static final Logger logger = LoggerFactory.getLogger(TestCaseLogListenerTest.class);
 
-  @Test
-  void test1() {
-    logger.info("test1 case")
-    ExecutorService executorService = Executors.newFixedThreadPool(2)
-    executorService.execute(TraceableTask.wrap(() -> {
-      Groot.runOnce("testcases/sampler/debug/debug.yml")
-    }))
-    executorService.shutdown()
-    executorService.awaitTermination(10, TimeUnit.MINUTES)
-  }
+    @Test
+    public void testAsyncTask(Method method) throws InterruptedException, ExecutionException {
+        String methodName = method.getDeclaringClass().getName() + "." +method.getName();
+        File logFile = new File("logs/case/" + methodName + ".0.log");
+        if (logFile.exists() && logFile.isFile()) {
+            assert logFile.delete();
+        }
+
+        logger.info("testAsync Start");
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.execute(TraceableTask.wrap(() -> {
+            logger.info("async task 1 execute");
+        }));
+        Future<String> future = executorService.submit(TraceableTask.wrap(() -> {
+            logger.info("async task 2 execute");
+            return "successful";
+        }));
+        logger.info("async task 2 result: {}", future.get());
+        executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.MINUTES);
+
+        assertThat(logFile).exists();
+    }
 
 }
 ```
 
-查看 `logs/case/TestLogback.test1.log` 内容，异步任务的日志已经被追加到用例 `TestLogback.test1` 的日志文件中。
+查看 `logs/case/com.liyunx.groot.testng.listener.TestCaseLogListenerTest.testAsyncTask.0.log` 内容，异步任务的日志已经被追加到用例 `TestCaseLogListenerTest.testAsyncTask.0` 的日志文件中。
 
 ```
-18:29:18.512 [TestNG-test=def_testname-2] INFO  TestLogback - test1 case 
-18:29:19.292 [pool-1-thread-1] INFO  com.github.groot.testelement.sampler.DebugSampler - apple 
-18:29:19.299 [pool-1-thread-1] INFO  com.github.groot.testelement.sampler.DebugSampler - {fruit=Monkeys like to eat banana} 
+17:41:19.574 [main] INFO  c.l.g.testng.listener.TestCaseLogListenerTest29  : testAsync Start 
+17:41:19.576 [pool-1-thread-1] INFO  c.l.g.testng.listener.TestCaseLogListenerTest32  : async task 1 execute 
+17:41:19.576 [pool-1-thread-2] INFO  c.l.g.testng.listener.TestCaseLogListenerTest35  : async task 2 execute 
+17:41:19.577 [main] INFO  c.l.g.testng.listener.TestCaseLogListenerTest38  : async task 2 result: successful  
 ```

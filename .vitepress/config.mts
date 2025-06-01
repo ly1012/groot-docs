@@ -84,6 +84,7 @@ function sidebarDocs(): DefaultTheme.SidebarItem[] {
       base: '/guide/integration/',
       items: [
         { text: 'TestNG', link: 'testng' },
+        { text: 'Allure', link: 'allure' },
       ]
     }, {
       text: '扩展与开发',

@@ -6,7 +6,7 @@ Groot 版本要求 JDK 17+、Groovy 4.0+。
 
 ## 引入依赖
 
-引入全量依赖，适合入门练习或不需要定制功能的场景。
+引入全量依赖，适合入门练习或不需要定制功能的场景。例子中的 LATEST 表示最新版本，请自行替换为具体的版本号。
 
 ::: code-group
 
@@ -14,21 +14,21 @@ Groot 版本要求 JDK 17+、Groovy 4.0+。
 <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-all</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency>
 
 <!-- Groot TestNG 集成 -->
 <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-testng</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency>
 ```
 
 ```kotlin [Gradle]
 dependencies {
-    implementation("com.liyunx.groot:groot-all:0.0.1")
-    implementation("com.liyunx.groot:groot-testng:0.0.1")
+    implementation("com.liyunx.groot:groot-all:LATEST")
+    implementation("com.liyunx.groot:groot-testng:LATEST")
 }
 
 tasks.test {
@@ -47,37 +47,37 @@ tasks.test {
 <!-- <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-core</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency> -->
 
 <!-- Groot 函数模块 -->
 <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-functions</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency>
 
 <!-- Groot HTTP 模块，用于 HTTP 请求 -->
 <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-http</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency>
 
 <!-- Groot TestNG 集成 -->
 <dependency>
     <groupId>com.liyunx.groot</groupId>
     <artifactId>groot-testng</artifactId>
-    <version>0.0.1</version>
+    <version>LATEST</version>
 </dependency>
 ```
 
 ```kotlin [Gradle]
 dependencies {
-    // implementation("com.liyunx.groot:groot-core:0.0.1")
-    implementation("com.liyunx.groot:groot-http:0.0.1")
-    implementation("com.liyunx.groot:groot-functions:0.0.1")
-    implementation("com.liyunx.groot:groot-testng:0.0.1")
+    // implementation("com.liyunx.groot:groot-core:LATEST")
+    implementation("com.liyunx.groot:groot-http:LATEST")
+    implementation("com.liyunx.groot:groot-functions:LATEST")
+    implementation("com.liyunx.groot:groot-testng:LATEST")
 }
 
 tasks.test {
